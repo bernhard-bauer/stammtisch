@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Altettaler Stammtisch — Termin hinzufügen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500&family=Spectral:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f3e9d8;
+    --paper-2:#ece0c9;
+    --ink:#2c2419;
+    --ink-soft:#6b5c43;
+    --amber:#b5642a;
+    --amber-deep:#8f4a1c;
+    --forest:#3a4a36;
+    --line:rgba(44,36,25,.16);
+    --card:#fbf5e9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:'Spectral',Georgia,serif;
+    color:var(--ink);
+    background:
+      radial-gradient(120% 90% at 50% -10%, #f8efdf 0%, var(--paper) 45%, var(--paper-2) 100%);
+    min-height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:28px 18px;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+    overflow-x:hidden;
+  }
+  /* subtle paper grain */
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events:none;
+    z-index:0;
+  }
+  .card{
+    position:relative;
+    z-index:1;
+    width:100%;
+    max-width:430px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:22px;
+    padding:34px 30px 30px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.7) inset,
+      0 30px 60px -28px rgba(44,36,25,.45),
+      0 8px 22px -16px rgba(44,36,25,.35);
+  }
+  .kicker{
+    font-family:'Spectral',serif;
+    font-weight:500;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    font-size:11px;
+    color:var(--amber-deep);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:16px;
+  }
+  .kicker::after{content:"";flex:1;height:1px;background:var(--line);}
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:900;
+    font-size:clamp(33px,9vw,42px);
+    line-height:.98;
+    letter-spacing:-.01em;
+    margin-bottom:6px;
+  }
+  h1 em{font-style:italic;font-weight:500;color:var(--amber);}
+  .sub{
+    font-size:15px;
+    color:var(--ink-soft);
+    font-style:italic;
+    margin-bottom:24px;
+  }
+  .facts{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:18px 0;
+    margin-bottom:24px;
+    display:grid;
+    gap:13px;
+  }
+  .fact{display:flex;gap:14px;align-items:baseline;}
+  .fact .ico{
+    font-family:'Fraunces',serif;
+    font-weight:900;
+    font-size:13px;
+    color:var(--amber);
+    width:20px;
+    flex:none;
+    text-align:center;
+    transform:translateY(1px);
+  }
+  .fact .lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);width:74px;flex:none;}
+  .fact .val{font-size:16px;font-weight:500;}
+  .fact .val small{display:block;font-size:13px;color:var(--ink-soft);font-weight:400;}
+
+  .prompt{
+    font-size:13px;
+    color:var(--ink-soft);
+    text-align:center;
+    margin-bottom:14px;
+    letter-spacing:.02em;
+  }
+  .btns{display:grid;gap:11px;}
+  a.btn{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    text-decoration:none;
+    color:var(--ink);
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px 16px;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    position:relative;
+  }
+  a.btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px -14px rgba(44,36,25,.5);background:#f6ecd9;}
+  a.btn:active{transform:translateY(0);}
+  a.btn .gx{
+    width:34px;height:34px;flex:none;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:9px;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Fraunces',serif;font-weight:900;font-size:17px;
+  }
+  a.btn .tx{display:flex;flex-direction:column;line-height:1.2;}
+  a.btn .tx b{font-weight:600;font-size:15.5px;font-family:'Spectral',serif;}
+  a.btn .tx span{font-size:12px;color:var(--ink-soft);}
+  a.btn .arr{margin-left:auto;color:var(--ink-soft);font-size:18px;transition:transform .15s ease;}
+  a.btn:hover .arr{transform:translateX(3px);}
+
+  /* recommended highlight */
+  a.btn.reco{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:var(--paper);
+  }
+  a.btn.reco:hover{background:#221b12;box-shadow:0 14px 28px -14px rgba(44,36,25,.7);}
+  a.btn.reco .gx{background:var(--amber);color:#fff;}
+  a.btn.reco .tx span,a.btn.reco .arr{color:rgba(243,233,216,.7);}
+  .tag{
+    position:absolute;top:-9px;right:14px;
+    background:var(--amber);color:#fff;
+    font-family:'Spectral',serif;
+    font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    padding:3px 9px;border-radius:20px;
+    box-shadow:0 4px 10px -4px rgba(143,74,28,.7);
+  }
+
+  .foot{
+    margin-top:22px;
+    text-align:center;
+    font-size:12px;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+  .foot b{color:var(--ink);font-weight:600;}
+</style>
+</head>
+<body>
+  <main class="card">
+    <div class="kicker">München · Stammtisch</div>
+    <h1>Altettaler<br><em>Stammtisch</em></h1>
+    <p class="sub">Trag dich mit einem Tipp in deinen Kalender ein.</p>
+
+    <div class="facts">
+      <div class="fact">
+        <span class="ico">◷</span>
+        <span class="lbl">Wann</span>
+        <span class="val">Jeden 2. Dienstag<small>19:00 – 21:00 Uhr</small></span>
+      </div>
+      <div class="fact">
+        <span class="ico">↻</span>
+        <span class="lbl">Ab</span>
+        <span class="val">Dienstag, 9. Juni 2026<small>monatlich wiederkehrend</small></span>
+      </div>
+      <div class="fact">
+        <span class="ico">⚲</span>
+        <span class="lbl">Ort</span>
+        <span class="val">Wechselnd<small>Details über die WhatsApp-Gruppe</small></span>
+      </div>
+    </div>
+
+    <p class="prompt" id="prompt">Wähle deinen Kalender:</p>
+
+    <div class="btns" id="btns">
+      <a class="btn" id="apple" href="stammtisch.ics">
+        <span class="gx"></span>
+        <span class="tx"><b>iPhone &amp; Apple Kalender</b><span>Tippen, dann „Alle hinzufügen“</span></span>
+        <span class="arr">→</span>
+        <span class="tag" hidden>Empfohlen</span>
+      </a>
+
+      <a class="btn" id="google" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Altettaler%20Stammtisch&dates=20260609T190000%2F20260609T210000&ctz=Europe%2FBerlin&details=Altettaler%20Stammtisch%20-%20jeden%20zweiten%20Dienstag%20im%20Monat.%20Ort%20wechselnd%2C%20Details%20%C3%BCber%20WhatsApp%20Gruppe&location=wechselnd%20%28M%C3%BCnchen%29&recur=RRULE%3AFREQ%3DMONTHLY%3BBYDAY%3D2TU" target="_blank" rel="noopener">
+        <span class="gx"></span>
+        <span class="tx"><b>Google Kalender</b><span>Android &amp; Google-Konto</span></span>
+        <span class="arr">→</span>
+        <span class="tag" hidden>Empfohlen</span>
+      </a>
+
+      <a class="btn" id="outlook" href="stammtisch.ics" download>
+        <span class="gx"></span>
+        <span class="tx"><b>Outlook &amp; andere</b><span>Datei importieren</span></span>
+        <span class="arr">→</span>
+        <span class="tag" hidden>Empfohlen</span>
+      </a>
+    </div>
+
+    <p class="foot">Es wird eine eigene Kopie in <b>deinem</b> Kalender angelegt — du musst nichts zu- oder absagen.</p>
+  </main>
+
+<script>
+  // Plattform erkennen und passenden Button als "Empfohlen" markieren / nach oben sortieren
+  (function(){
+    var ua = navigator.userAgent || "";
+    var isApple = /iPad|iPhone|iPod|Macintosh/.test(ua) ||
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var isAndroid = /Android/.test(ua);
+
+    var ids = isApple ? "apple" : (isAndroid ? "google" : null);
+    if(ids){
+      var el = document.getElementById(ids);
+      el.classList.add("reco");
+      el.querySelector(".tag").hidden = false;
+      // empfohlenen Button an die erste Stelle setzen
+      var box = document.getElementById("btns");
+      box.insertBefore(el, box.firstChild);
+      // kleine Icons setzen
+    }
+
+    // dekorative Buchstaben in die Badges (A / G / O)
+    document.querySelector("#apple .gx").textContent  = "";
+    document.querySelector("#google .gx").textContent = "G";
+    document.querySelector("#outlook .gx").textContent= "O";
+  })();
+</script>
+</body>
+</html>
